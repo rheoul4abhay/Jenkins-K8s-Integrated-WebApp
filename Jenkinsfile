@@ -12,7 +12,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_PASS) {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd frontend
                         sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app .
