@@ -18,8 +18,8 @@ pipeline {
 	steps {
 	  sh '''
 	  cd frontend
-	  docker build -t $DOCKERHUB_USERNAME/jk-frontend-app .
-	  docker push $DOCKERHUB_USERNAME/jk-frontend-app
+	  sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app .
+	  sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app
 	  '''
 	}
       }
@@ -28,8 +28,8 @@ pipeline {
 	steps {
 	  sh '''
 	  cd backend
-	  docker build -t $DOCKERHUB_USERNAME/jk-backend-app .
-	  docker push $DOCKERHUB_USERNAME/jk-backend-app
+	  sudo docker build -t $DOCKERHUB_USERNAME/jk-backend-app .
+	  sudo docker push $DOCKERHUB_USERNAME/jk-backend-app
 	  '''
 	}
       }
