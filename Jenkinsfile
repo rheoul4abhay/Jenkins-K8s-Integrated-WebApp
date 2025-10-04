@@ -40,7 +40,7 @@ pipeline {
         stage('Deploy to Minikube') {
             steps {
                 sh '''
-                ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@98.90.132.130 << EOF
+                ssh -i /root/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@98.90.132.130 << EOF
                 kubectl apply -f ~/Jenkins-K8s-Integrated-WebApp/K8s/
                 EOF
                 '''
