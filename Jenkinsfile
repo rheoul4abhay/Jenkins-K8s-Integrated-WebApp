@@ -26,7 +26,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_PASS) {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd backend
                         sudo docker build -t $DOCKERHUB_USERNAME/jk-backend-app .
