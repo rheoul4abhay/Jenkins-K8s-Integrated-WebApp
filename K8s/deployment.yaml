@@ -1,6 +1,50 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: database-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_NAME
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_PASSWORD
+          volumeMounts:
+            - name: init-db
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: init-db
+          configMap:
+            name: init-sql
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: frontend-deployment
 spec:
   replicas: 3
@@ -17,12 +61,15 @@ spec:
           image: abhayshrivastava/jk-frontend-app
           ports:
             - containerPort: 80
+          env:
+            - name: BACKEND_URL
+              value: "http://backend-service:5000"
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-app
+  name: backend-deployment
 spec:
   replicas: 3
   selector:
@@ -38,8 +85,29 @@ spec:
           image: abhayshrivastava/jk-backend-app
           ports:
             - containerPort: 5000
-          envFrom:
-            - configMapRef:
-                name: backend-config
-            - secretRef:
-                name: db-secret
+          env:
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_NAME
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_PORT
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_PASSWORD

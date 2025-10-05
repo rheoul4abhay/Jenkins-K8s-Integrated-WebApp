@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Multi-Service App</title>
+    <title>My WebApp</title>
+    <script>
+        async function fetchMessage() {
+            const response = await fetch('/api/message');
+            const data = await response.json();
+            document.getElementById('message').innerText = data.message;
+        }
+
+        async function sendMessage() {
+            const msg = document.getElementById('newMessage').value;
+            const response = await fetch('/api/message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg })
+            });
+            const data = await response.json();
+            alert(data.status || data.error);
+        }
+    </script>
 </head>
 <body>
-  <h1>Welcome to my web app </h1>
-  <p>Backend API: /apiClick here</a></p>
+    <h1>Welcome to the Frontend</h1>
+
+    <button onclick="fetchMessage()">Get Message from Backend</button>
+    <p id="message"></p>
+
+    <hr>
+    <h3>Add a new message to the database:</h3>
+    <input type="text" id="newMessage" placeholder="Type your message here">
+    <button onclick="sendMessage()">Submit Message</button>
 </body>
 </html>
