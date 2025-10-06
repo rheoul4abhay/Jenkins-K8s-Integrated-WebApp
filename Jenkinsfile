@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = 'abhayshrivastava'
-	DEPLOYMENT_IP = '0.0.0.0'
+		DEPLOYMENT_IP = '0.0.0.0'
     }
 
     stages {
