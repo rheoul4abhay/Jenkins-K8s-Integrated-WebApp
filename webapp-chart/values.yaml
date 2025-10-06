@@ -3,7 +3,7 @@ replicaCount: 3
 image:
   backend: abhayshrivastava/jk-backend-app
   frontend: abhayshrivastava/jk-frontend-app
-  db: postgres:15
+  db: "postgres:15"
 
 service:
   type: NodePort
