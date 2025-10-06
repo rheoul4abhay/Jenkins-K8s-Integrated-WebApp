@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: {{ .Values.image.db }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.db }}
           ports:
             - containerPort: {{ .Values.service.dbPort }}
           env:
@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: {{ .Values.image.frontend }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}
           ports:
             - containerPort: 80
           env:
@@ -82,7 +82,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: {{ .Values.image.backend }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.backend.repository }}:{{ .Values.image.backend.tag }}
           ports:
             - containerPort: 5000
           env:
