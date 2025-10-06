@@ -6,7 +6,7 @@ pipeline {
     environment {
 		DEPLOYMENT_SERVER_IP = '98.91.64.24'
         DOCKERHUB_USERNAME = 'abhayshrivastava'
-	DOCKER_TAG = '${env.BUILD_NUMBER}'
+	DOCKER_TAG = env.BUILD_NUMBER
     }
 
     stages {
