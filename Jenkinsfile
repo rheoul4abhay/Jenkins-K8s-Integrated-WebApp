@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = 'abhayshrivastava'
-        DOCKERHUB_PASS = credentials('dockerhub-creds')
+	DEPLOYMENT_IP = '0.0.0.0'
     }
 
     stages {
