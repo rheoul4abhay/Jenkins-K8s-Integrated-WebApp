@@ -1,6 +1,7 @@
 replicaCount: 3
 
 image:
+  tag: latest
   backend: abhayshrivastava/jk-backend-app
   frontend: abhayshrivastava/jk-frontend-app
   db: postgres
