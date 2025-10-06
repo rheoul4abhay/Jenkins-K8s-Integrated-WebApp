@@ -6,6 +6,7 @@ pipeline {
     environment {
 		DEPLOYMENT_SERVER_IP = '98.91.64.24'
         DOCKERHUB_USERNAME = 'abhayshrivastava'
+	DOCKER_TAG = '${env.BUILD_NUMBER}'
     }
 
     stages {
@@ -15,8 +16,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd frontend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app
+                        sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app:$DOCKER_TAG .
+                        sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app:$DOCKER_TAG
                         '''
                     }
                 }
@@ -29,8 +30,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd backend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-backend-app .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-backend-app
+                        sudo docker build -t $DOCKERHUB_USERNAME/jk-backend-app:$DOCKER_TAG .
+                        sudo docker push $DOCKERHUB_USERNAME/jk-backend-app:$DOCKER_TAG
                         '''
                     }
                 }
