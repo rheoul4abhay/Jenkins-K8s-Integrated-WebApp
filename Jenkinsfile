@@ -41,7 +41,7 @@ pipeline {
             steps {
                 sh '''
         	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_IP "
-        	helm repo add my-webapp https://rheoul4abhay.github.io/my-helm-chart && \
+        	helm repo add my-webapp https://rheoul4abhay.github.io/my-helm-charts && \
         	helm repo update && helm upgrade --install my-webapp abhayrepo/webapp-chart \
         	--set image.frontend=$DOCKERHUB_USERNAME/jk-frontend-app:$DOCKER_TAG
         	--set image.backend=$DOCKERHUB_USERNAME/jk-frontend-app:$DOCKER_TAG
