@@ -4,8 +4,8 @@ pipeline {
     }
 
     environment {
+	DEPLOYMENT_SERVER_IP = '0.0.0.0'
         DOCKERHUB_USERNAME = 'abhayshrivastava'
-		DEPLOYMENT_IP = '0.0.0.0'
     }
 
     stages {
@@ -40,7 +40,7 @@ pipeline {
         stage('Deploy to Minikube') {
             steps {
                 sh '''
-        	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_IP "
+        	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_SERVER_IP "
         	helm repo add my-webapp https://rheoul4abhay.github.io/my-helm-charts && \
         	helm repo update && helm upgrade --install my-webapp abhayrepo/webapp-chart \
         	--set image.frontend=$DOCKERHUB_USERNAME/jk-frontend-app:$DOCKER_TAG
