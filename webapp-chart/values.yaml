@@ -1,0 +1,25 @@
+replicaCount: 3
+
+image:
+  frontend:
+    repository: abhayshrivastava/jk-frontend-app
+    tag: latest
+  backend:
+    repository: abhayshrivastava/jk-backend-app
+    tag: latest
+  db: postgres
+
+service:
+  type: NodePort
+  backendPort: 30500
+  frontendPort: 30080
+  dbPort: 5432
+
+config:
+  dbName: mydb
+  dbHost: postgres-service
+  dbPort: "5432"
+
+secret:
+  dbUser: postgres
+  dbPassword: password

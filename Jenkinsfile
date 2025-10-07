@@ -4,8 +4,8 @@ pipeline {
     }
 
     environment {
+		DEPLOYMENT_SERVER_IP = '75.101.212.176'
         DOCKERHUB_USERNAME = 'abhayshrivastava'
-        DOCKERHUB_PASS = credentials('dockerhub-creds')
     }
 
     stages {
@@ -15,8 +15,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd frontend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app
+                        sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER .
+                        sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER
                         '''
                     }
                 }
@@ -29,8 +29,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd backend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-backend-app .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-backend-app
+                        sudo docker build -t $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER .
+                        sudo docker push $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER
                         '''
                     }
                 }
@@ -39,9 +39,16 @@ pipeline {
 
         stage('Deploy to Minikube') {
             steps {
-	    	sh '''
-        	scp -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no -r K8s ubuntu@98.90.132.130:~/Jenkins-K8s-Integrated-WebApp/
-        	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@98.90.132.130 "kubectl apply -f ~/Jenkins-K8s-Integrated-WebApp/K8s/"
+                sh '''
+        	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_SERVER_IP "
+        	helm repo add my-webapp https://rheoul4abhay.github.io/my-helm-charts && \
+        	helm repo update && \
+		helm upgrade --install my-webapp my-webapp/webapp-chart \
+  		--set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
+		--set image.frontend.tag=$BUILD_NUMBER \
+		--set image.backend.repository=$DOCKERHUB_USERNAME/jk-backend-app \
+		--set image.backend.tag=$BUILD_NUMBER
+		"
         	'''
             }
         }
