@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-		DEPLOYMENT_SERVER_IP = '98.91.64.24'
+		DEPLOYMENT_SERVER_IP = '75.101.212.176'
         DOCKERHUB_USERNAME = 'abhayshrivastava'
     }
 
