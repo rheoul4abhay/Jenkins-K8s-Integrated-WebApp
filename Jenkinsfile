@@ -15,6 +15,7 @@ pipeline {
 		withSonarQubeEnv('SonarQube') {
 		    sh '''
 			cd backend
+			sonar-scanner \
               		-Dsonar.projectKey=jk-backend \
               		-Dsonar.sources=. \
               		-Dsonar.host.url=http://$DEPLOYMENT_SERVER_IP:9000 \
