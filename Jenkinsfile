@@ -13,7 +13,7 @@ pipeline {
 	stage('Code Analysis') {
 	    steps {
 		withSonarQubeEnv('SonarQube') {
-		    sh '''
+		    sh """
 			cd backend
 			sonar-scanner \
               		-Dsonar.projectKey=jk-backend \
@@ -29,7 +29,7 @@ pipeline {
                 	-Dsonar.exclusions=**/node_modules/**,**/venv/**,**/tests/**,**/proc/** \
               		-Dsonar.host.url=http://DEPLOYMENT_SERVER_IP:9000 \
               		-Dsonar.login=$SONARQUBE_TOKEN
-		    '''
+		    """
 		}
 	    }
 	}
