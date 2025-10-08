@@ -6,9 +6,30 @@ pipeline {
     environment {
 		DEPLOYMENT_SERVER_IP = '3.230.23.222'
         DOCKERHUB_USERNAME = 'abhayshrivastava'
+	SONARQUBE_TOKEN = credentials('sonarqube-token')
     }
 
     stages {
+	stage('Code Analysis') {
+	    steps {
+		withSonarQubeEnv('SonarQube') {
+		    sh '''
+			cd backend
+              		-Dsonar.projectKey=jk-backend \
+              		-Dsonar.sources=. \
+              		-Dsonar.host.url=http://$DEPLOYMENT_SERVER_IP:9000 \
+              		-Dsonar.login=$SONAR_TOKEN
+
+            		cd ../frontend
+            		sonar-scanner \
+              		-Dsonar.projectKey=jk-frontend \
+              		-Dsonar.sources=. \
+              		-Dsonar.host.url=http://DEPLOYMENT_SERVER_IP:9000 \
+              		-Dsonar.login=$SONAR_TOKEN
+		    '''
+		}
+	    }
+	}
         stage('Build Frontend') {
             steps {
                 script {
