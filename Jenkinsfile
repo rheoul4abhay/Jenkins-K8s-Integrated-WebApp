@@ -1,10 +1,15 @@
+properties([
+    pipelineTriggers([
+        githubPush()
+    ])
+])
 pipeline {
     agent {
         label 'docker-node'
     }
 
     environment {
-		DEPLOYMENT_SERVER_IP = '75.101.212.176'
+		DEPLOYMENT_SERVER_IP = '3.230.23.222'
         DOCKERHUB_USERNAME = 'abhayshrivastava'
     }
 
