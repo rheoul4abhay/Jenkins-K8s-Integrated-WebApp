@@ -27,7 +27,7 @@ pipeline {
               		-Dsonar.projectKey=jk-frontend \
               		-Dsonar.sources=. \
                 	-Dsonar.exclusions=**/node_modules/**,**/venv/**,**/tests/**,**/proc/** \
-              		-Dsonar.host.url=http://DEPLOYMENT_SERVER_IP:9000 \
+              		-Dsonar.host.url=http://$DEPLOYMENT_SERVER_IP:9000 \
               		-Dsonar.login=$SONARQUBE_TOKEN
 		    """
 		}
