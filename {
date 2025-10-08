@@ -1,65 +1,0 @@
-Script started on 2025-10-08 21:09:49+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="100" LINES="54"]
-lear
-clear
-[?2004h]0;ubuntu@ip-172-31-13-39: ~/Jenkins-K8s-Integrated-WebApp[01;32mubuntu@ip-172-31-13-39[00m:[01;34m~/Jenkins-K8s-Integrated-WebApp[00m$ lear
-[?2004lCommand 'lear' not found, did you mean:
-  command 'lsar' from deb unar (1.10.7+ds1+really1.10.1-2build3)
-  command 'clear' from deb ncurses-bin (6.4+20231209-1)
-  command 'rear' from deb rear (2.7+dfsg-1.1)
-  command 'bear' from deb bear (3.1.3-1build1)
-  command 'pear' from deb php-pear (1:1.10.13+submodules+notgz+2022032202-2build1)
-  command 'lean' from deb elan (3.0.0-1)
-Try: sudo apt install <deb name>
-[?2004h]0;ubuntu@ip-172-31-13-39: ~/Jenkins-K8s-Integrated-WebApp[01;32mubuntu@ip-172-31-13-39[00m:[01;34m~/Jenkins-K8s-Integrated-WebApp[00m$ clear
-[?2004l[H[2J[3J[?2004h]0;ubuntu@ip-172-31-13-39: ~/Jenkins-K8s-Integrated-WebApp[01;32mubuntu@ip-172-31-13-39[00m:[01;34m~/Jenkins-K8s-Integrated-WebApp[00m$ clear
-[?2004l[H[2J[3J[?2004h]0;ubuntu@ip-172-31-13-39: ~/Jenkins-K8s-Integrated-WebApp[01;32mubuntu@ip-172-31-13-39[00m:[01;34m~/Jenkins-K8s-Integrated-WebApp[00m$ ls
-[?2004l Jenkinsfile   README.md   [0m[01;34mbackend[0m   [01;34mdatabase[0m   [01;34mfrontend[0m   [01;34mwebapp-chart[0m  '{'
-[?2004h]0;ubuntu@ip-172-31-13-39: ~/Jenkins-K8s-Integrated-WebApp[01;32mubuntu@ip-172-31-13-39[00m:[01;34m~/Jenkins-K8s-Integrated-WebApp[00m$ vi j[KJenkinsfile 
-[?2004l[?1049h[22;0;0t[>4;2m[?1h=[?2004h[?1004h[1;54r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[54;1H"Jenkinsfile" 80L, 2686B[2;1H▽[6n[2;1H  [3;1HPzz\[0%m[6n[3;1H           [1;1H[>c]10;?]11;?[1;1Hpipeline {
-    agent {[2;12H[K[3;1H        label [31m'docker-node'[m[3;28H[K[4;5H}[6;5Henvironment {[7;17HDEPLOYMENT_SERVER_IP = [31m'3.230.23.222'[m[8;9HDOCKERHUB_USERNAME = [31m'abhayshrivastava'[m[9;9HSONARQUBE_TOKEN = credentials([31m'sonarqube-token'[m)
-    }[12;5Hstages {[13;9Hstage([31m'Code Analysis'[m) {[14;13Hsteps {[15;17HwithSonarQubeEnv([31m'SonarQube'[m) {[16;21Hsh [31m"""
-                        cd backend
-                        sonar-scanner \
-                        -Dsonar.projectKey=jk-backend \
-                        -Dsonar.sources=. \
-                        -Dsonar.exclusions=**/node_modules/**,**/venv/**,**/tests/**,**/proc/** \
-                        -Dsonar.host.url=http://[m[36m$DEPLOYMENT_SERVER_IP[m[31m:9000 \
-                        -Dsonar.login=[m[36m$SONARQUBE_TOKEN[m
-
-[31m                        cd ../frontend
-                        sonar-scanner \
-                        -Dsonar.projectKey=jk-frontend \
-                        -Dsonar.sources=. \
-                        -Dsonar.exclusions=**/node_modules/**,**/venv/**,**/tests/**,**/proc/** \
-                        -Dsonar.host.url=http://DEPLOYMENT_SERVER_IP:9000 \
-                        -Dsonar.login=[m[36m$SONARQUBE_TOKEN[m
-[31m                    """[m[33;17H}[34;13H}[35;9H}[36;9Hstage([31m'Build Frontend'[m) {[37;13Hsteps {[38;17Hscript {[39;21Hdocker.withRegistry([31m'https://index.docker.io/v1/'[m, [31m'dockerhub-creds'[m) {[40;25Hsh [31m'''
-                        cd frontend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER
-                        '''[m[45;21H}[46;17H}[47;13H}[48;9H}[50;9Hstage([31m'Build Backend'[m) {[51;13Hsteps {[52;17Hscript {[53;21Hdocker.withRegistry([31m'https://index.docker.io/v1/'[m, [31m'dockerhub-creds'[m) {[54;83H16,12-26      Top[16;26H[?25h[?4m[?12$p[?25l[54;73H/[16;26H[54;74H0[16;26H[54;75Hc[16;26H[54;76H0[16;26H[54;77Hc[16;26H[54;78H/[16;26H[54;79H0[16;26H[54;80Hc[16;26H[54;81H0[16;26H[54;82Hc[16;26H[54;73H          [16;26H[27m[23m[29m[m[H[2J[1;1Hpipeline {
-    agent {[3;9Hlabel [95m'docker-node'[m
-    }[6;5Henvironment {[7;17HDEPLOYMENT_SERVER_IP = [95m'3.230.23.222'[m[8;9HDOCKERHUB_USERNAME = [95m'abhayshrivastava'[m[9;9HSONARQUBE_TOKEN = credentials([95m'sonarqube-token'[m)
-    }[12;5Hstages {[13;9Hstage([95m'Code Analysis'[m) {[14;13Hsteps {[15;17HwithSonarQubeEnv([95m'SonarQube'[m) {[16;21Hsh [95m"""
-                        cd backend
-                        sonar-scanner \
-                        -Dsonar.projectKey=jk-backend \
-                        -Dsonar.sources=. \
-                        -Dsonar.exclusions=**/node_modules/**,**/venv/**,**/tests/**,**/proc/** \
-                        -Dsonar.host.url=http://[m[1m[96m$DEPLOYMENT_SERVER_IP[m[95m:9000 \
-                        -Dsonar.login=[m[1m[96m$SONARQUBE_TOKEN[m
-
-[95m                        cd ../frontend
-                        sonar-scanner \
-                        -Dsonar.projectKey=jk-frontend \
-                        -Dsonar.sources=. \
-                        -Dsonar.exclusions=**/node_modules/**,**/venv/**,**/tests/**,**/proc/** \
-                        -Dsonar.host.url=http://DEPLOYMENT_SERVER_IP:9000 \
-                        -Dsonar.login=[m[1m[96m$SONARQUBE_TOKEN[m
-[95m                    """[m[33;17H}[34;13H}[35;9H}[36;9Hstage([95m'Build Frontend'[m) {[37;13Hsteps {[38;17Hscript {[39;21Hdocker.withRegistry([95m'https://index.docker.io/v1/'[m, [95m'dockerhub-creds'[m) {[40;25Hsh [95m'''
-                        cd frontend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER
-                        '''[m[45;21H}[46;17H}[47;13H}[48;9H}[50;9Hstage([95m'Build Backend'[m) {[51;13Hsteps {[52;17Hscript {[53;21Hdocker.withRegistry([95m'https://index.docker.io/v1/'[m, [95m'dockerhub-creds'[m) {[54;83H16,12-26      Top"Jenkinsfile" 80L, 2686B[16;26H[?25h[?25l[54;73Hi[16;26H[54;73H [16;26H[54;1H[1m-- INSERT --[m[54;13H[K[54;83H16,12-26      Top[16;26H[?25h[?25l[54;84H7,5-26 [17;26H[?25h[?25l[54;84H8[18;26H[?25h[?25l[54;84H9,18-26[19;26H[?25h[?25l[54;83H20[20;26H[?25h[?25l[54;84H1,19[21;26H[?25h[?25l[54;84H2,18[22;26H[?25h[?25l[54;84H3[23;26H[?25h[?25l[54;84H4,1    [24;1H[?25h[?25l[54;84H5,16-26[25;26H[?25h[?25l[54;84H6[26;26H[?25h[?25l[54;84H7,18[27;26H[?25h[?25l[54;84H8[28;26H[?25h[?25l[54;84H9,19[29;26H[?25h[?25l[54;86H20-27[29;27H[?25h[?25l[54;83H30,19[30;27H[?25h[?25l[54;86H20-28[30;28H[?25h[?25l[54;87H1-29[30;29H[?25h[?25l[54;87H2-30[30;30H[?25h[?25l[54;87H3-31[30;31H[?25h[?25l[54;87H4-32[30;32H[?25h[?25l[54;87H5-33[30;33H[?25h[?25l[54;87H6-34[30;34H[?25h[?25l[54;87H7-35[30;35H[?25h[?25l[54;87H8-36[30;36H[?25h[?25l[54;87H9-37[30;37H[?25h[?25l[54;86H30-38[30;38H[?25h[?25l[54;87H1-39[30;39H[?25h[?25l[54;87H2-40[30;40H[?25h[?25l[54;87H3-41[30;41H[?25h[?25l[54;87H4-42[30;42H[?25h[?25l[54;87H5-43[30;43H[?25h[?25l[54;87H6-44[30;44H[?25h[?25l[54;87H7-45[30;45H[?25h[?25l[54;87H8-46[30;46H[?25h[?25l[54;87H9-47[30;47H[?25h[?25l[54;86H40-48[30;48H[?25h[?25l[54;87H1-49[30;49H[?25h[?25l[54;87H2-50[30;50H[?25h[?25l[54;87H1-49[30;49H[?25h[?25l[95m@DEPLOYMENT_SERVER_IP:9000 \[m[54;87H2-50[30;50H[?25h[?25l[95mDEPLOYMENT_SERVER_IP:9000 \[m[30;76H[K[54;87H1-49[30;49H[?25h[?25l[1m[96m$DEPLOYMENT_SERVER_IP[m[95m:9000 \[m[54;87H2-50[30;50H[?25h[54;1H[K[30;49H[?25l[54;73H^[[30;49H[54;73H  [30;50H[54;83H30,41-49      Top[30;49H[?25h[?25l[54;73H:[30;49H[54;73H[K[54;1H:[?25hwq[?25l[?2004l[>4;m"Jenkinsfile" 80L, 2687B written[23;2t[23;1t
-[?1004l[?2004l[?1l>[?1049l[23;0;0t[?25h[>4;m[?2004h]0;ubuntu@ip-172-31-13-39: ~/Jenkins-K8s-Integrated-WebApp[01;32mubuntu@ip-172-31-13-39[00m:[01;34m~/Jenkins-K8s-Integrated-WebApp[00m$ git add .
-[?2004l[?2004h]0;ubuntu@ip-172-31-13-39: ~/Jenkins-K8s-Integrated-WebApp
