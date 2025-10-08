@@ -18,14 +18,14 @@ pipeline {
               		-Dsonar.projectKey=jk-backend \
               		-Dsonar.sources=. \
               		-Dsonar.host.url=http://$DEPLOYMENT_SERVER_IP:9000 \
-              		-Dsonar.login=$SONAR_TOKEN
+              		-Dsonar.login=$SONARQUBE_TOKEN
 
             		cd ../frontend
             		sonar-scanner \
               		-Dsonar.projectKey=jk-frontend \
               		-Dsonar.sources=. \
               		-Dsonar.host.url=http://DEPLOYMENT_SERVER_IP:9000 \
-              		-Dsonar.login=$SONAR_TOKEN
+              		-Dsonar.login=$SONARQUBE_TOKEN
 		    '''
 		}
 	    }
