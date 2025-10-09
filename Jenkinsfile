@@ -38,6 +38,9 @@ pipeline {
         }
 
         stage('Deploy to Minikube') {
+	    when {
+		branch 'main'
+	    }
             steps {
 	    	sh '''
         	scp -i /home/jegkins/.ssh/id_rsa -o StrictHostKeyChecking=no -r K8s ubuntu@98.90.132.130:~/Jenkins-K8s-Integrated-WebApp/
