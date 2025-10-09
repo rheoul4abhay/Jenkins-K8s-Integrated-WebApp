@@ -62,6 +62,9 @@ pipeline {
         }
 
         stage('Deploy to Minikube') {
+	    when {
+		branch 'main'
+	    }
             steps {
                 sh '''
         	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_SERVER_IP "
