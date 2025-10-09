@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-		DEPLOYMENT_SERVER_IP = '3.230.23.222'
+		DEPLOYMENT_SERVER_IP = '98.85.241.246'
         DOCKERHUB_USERNAME = 'abhayshrivastava'
 	SONARQUBE_TOKEN = credentials('sonarqube-token')
     }
