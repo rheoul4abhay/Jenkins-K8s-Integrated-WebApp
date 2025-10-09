@@ -4,9 +4,9 @@ pipeline {
     }
 
     environment {
-		DEPLOYMENT_SERVER_IP = '98.86.21.44'
-        DOCKERHUB_USERNAME = 'abhayshrivastava'
-	SONARQUBE_TOKEN = credentials('sonarqube-token')
+		DEPLOYMENT_SERVER_IP = '98.90.26.35'
+		DOCKERHUB_USERNAME = 'abhayshrivastava'
+		SONARQUBE_TOKEN = credentials('sonarqube-token')
     }
 
     stages {
@@ -62,12 +62,15 @@ pipeline {
         }
 
         stage('Deploy to Minikube') {
+	    when {
+		branch 'main'
+	    }
             steps {
                 sh '''
         	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_SERVER_IP "
-        	helm repo add my-webapp https://rheoul4abhay.github.io/my-helm-charts && \
+        	helm repo add jk-webapp https://rheoul4abhay.github.io/my-helm-charts && \
         	helm repo update && \
-		helm upgrade --install my-webapp my-webapp/webapp-chart \
+		helm upgrade --install jk-webapp jk-webapp/webapp-chart \
   		--set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
 		--set image.frontend.tag=$BUILD_NUMBER \
 		--set image.backend.repository=$DOCKERHUB_USERNAME/jk-backend-app \
