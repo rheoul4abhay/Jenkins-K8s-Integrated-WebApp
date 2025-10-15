@@ -1,8 +1,8 @@
 {{- if eq .Values.platform "openshift" }}
-apiVersion: route.openshift.io/v
+apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: {{ .Release.Name }}-frontend
+  name: jk-webapp-frontend
 spec:
   to:
     kind: Service
