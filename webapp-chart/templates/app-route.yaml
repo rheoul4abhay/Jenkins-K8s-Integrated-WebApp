@@ -9,4 +9,6 @@ spec:
     name: frontend-service
   port:
     targetPort: http
+  tls:
+    termination: edge
 {{- end }}
