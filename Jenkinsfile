@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-		DEPLOYMENT_SERVER_IP = '100.26.174.24'
+		DEPLOYMENT_SERVER_IP = '44.213.155.233'
 		DOCKERHUB_USERNAME = 'abhayshrivastava'
 		SONARQUBE_TOKEN = credentials('sonarqube-token')
     }
@@ -61,21 +61,20 @@ pipeline {
             }
         }
 
-        stage('Deploy to Minikube') {
+        stage('Deploy to OpenShift') {
 	    when {
 		branch 'main'
 	    }
             steps {
+		withCredentials([string(credentialsId: 'openshift-token', variable: 'OPENSHIFT_TOKEN')])
                 sh '''
-        	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_SERVER_IP "
-        		helm repo add jk-webapp https://rheoul4abhay.github.io/my-helm-charts && \
-        		helm repo update && \
-			helm upgrade --install jk-webapp jk-webapp/webapp-chart --version 0.2.0 \
+			oc login --token=$OPENSHIFT_TOKEN --server=https://api.rm2.thpm.p1.openshiftapps.com:6443 --insecure-skip-tls-verify=true
+			helm upgrade --install jk-webapp ./webapp-chart \
+			--set platform=openshift \
   			--set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
 			--set image.frontend.tag=$BUILD_NUMBER \
 			--set image.backend.repository=$DOCKERHUB_USERNAME/jk-backend-app \
 			--set image.backend.tag=$BUILD_NUMBER
-		"
         	'''
             }
         }
