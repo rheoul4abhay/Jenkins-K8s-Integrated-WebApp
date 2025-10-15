@@ -66,7 +66,7 @@ pipeline {
 		branch 'main'
 	    }
             steps {
-		withCredentials([string(credentialsId: 'openshift-token', variable: 'OPENSHIFT_TOKEN')])
+		withCredentials([string(credentialsId: 'openshift-token', variable: 'OPENSHIFT_TOKEN')]) {
                 sh '''
 			oc login --token=$OPENSHIFT_TOKEN --server=https://api.rm2.thpm.p1.openshiftapps.com:6443 --insecure-skip-tls-verify=true
 			helm upgrade --install jk-webapp ./webapp-chart \
@@ -76,6 +76,7 @@ pipeline {
 			--set image.backend.repository=$DOCKERHUB_USERNAME/jk-backend-app \
 			--set image.backend.tag=$BUILD_NUMBER
         	'''
+		}
             }
         }
     }
