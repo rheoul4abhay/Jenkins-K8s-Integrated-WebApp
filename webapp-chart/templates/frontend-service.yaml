@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: frontend-service
 spec:
-  type: {{ .Values.service.type }}
   selector:
     app: frontend
   ports:
     - port: 80
       targetPort: 80
+      {{- if eq .Values.platform "minikube" }}
       nodePort: {{ .Values.service.frontendPort }}
+      {{- end }}
