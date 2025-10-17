@@ -1,6 +1,9 @@
 FROM nginx:alpine
+
+
 RUN mkdir -p /var/cache/nginx/client_temp /var/cache/nginx/proxy_temp && \
-    chmod -R 777 /var/cache/nginx
+    chown -R 1001:0 /var/cache/nginx && \
+    chmod -R 775 /var/cache/nginx
 
 COPY index.html /usr/share/nginx/html/index.html
 COPY styles.css /usr/share/nginx/html/styles.css
