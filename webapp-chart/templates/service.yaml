@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: myapp-database
+  ports:
+    - port: {{ .Values.ports.dbPort }}
+      targetPort: {{ .Values.ports.dbPort }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: myapp-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  labels:
+    namespace: {{ .Values.namespace }}
+    app: backend
+    release: kube-prometheus-stack
+spec:
+  selector:
+    app: myapp-backend
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000

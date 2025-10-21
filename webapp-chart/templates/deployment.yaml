@@ -16,7 +16,7 @@ spec:
         - name: postgres
           image: {{ .Values.image.db }}
           ports:
-            - containerPort: {{ .Values.service.dbPort }}
+            - containerPort: {{ .Values.ports.dbPort }}
           env:
             - name: POSTGRES_DB
               valueFrom:

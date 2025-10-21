@@ -1,4 +1,5 @@
 platform: openshift
+namespace: abhayshrivastava123-dev
 replicaCount: 3
 
 image:
@@ -10,10 +11,7 @@ image:
     tag: latest
   db: postgres
 
-service:
-  type: NodePort
-  backendPort: 30500
-  frontendPort: 30080
+ports:
   dbPort: 5432
 
 config:
@@ -27,10 +25,8 @@ secret:
 
 resources:
   requests:
-    memory: 150Mi
-    cpu: 150m
+    memory: "128Mi"
+    cpu: "150m"
   limits:
-    memory: 250Mi
-  cpu: 250m
-
-namespace: production
+    memory: "256Mi"
+    cpu: "200m"
