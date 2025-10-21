@@ -24,3 +24,11 @@ config:
 secret:
   dbUser: postgres
   dbPassword: password
+
+resources:
+  requests:
+    memory: 150Mi
+    cpu: 150m
+  limits:
+    memory: 250Mi
+  cpu: 250m
