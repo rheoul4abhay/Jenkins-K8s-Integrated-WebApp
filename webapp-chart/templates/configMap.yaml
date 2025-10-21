@@ -5,7 +5,7 @@ metadata:
 data:
   DB_NAME: "{{ .Values.config.dbName }}"
   DB_HOST: "{{ .Values.config.dbHost }}"
-  DB_PORT: "{{ .Values.ports.dbPort }}"
+  DB_PORT: "{{ .Values.service.dbPort }}"
 
 ---
 apiVersion: v1

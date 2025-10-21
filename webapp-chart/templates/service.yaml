@@ -6,8 +6,8 @@ spec:
   selector:
     app: myapp-database
   ports:
-    - port: {{ .Values.ports.dbPort }}
-      targetPort: {{ .Values.ports.dbPort }}
+    - port: {{ .Values.service.dbPort }}
+      targetPort: {{ .Values.service.dbPort }}
 
 ---
 apiVersion: v1
@@ -18,8 +18,12 @@ spec:
   selector:
     app: myapp-frontend
   ports:
-    - port: 80
-      targetPort: 80
+    - name: http
+      port: 80
+      targetPort: 8080
+      {{- if eq .Values.platform "minikube" }}
+      nodePort: {{ .Values.service.frontendPort }}
+      {{- end }}
 
 ---
 apiVersion: v1
@@ -37,3 +41,6 @@ spec:
     - name: http
       port: 5000
       targetPort: 5000
+      {{- if eq .Values.platform "minikube" }}
+      nodePort: {{ .Values.service.backendPort }}
+      {{- end }}
