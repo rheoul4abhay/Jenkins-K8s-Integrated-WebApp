@@ -15,9 +15,7 @@ kind: Service
 metadata:
   name: frontend-service
 spec:
-  {{- if eq .Values.platform "minikube" }}
-  type: {{ .Values.service.type }}
-  {{- end }}
+  type: {{- if eq .Values.platform "minikube" }}NodePort{{ else }}ClusterIP{{ end }}
   selector:
     app: myapp-frontend
   ports:
@@ -38,9 +36,7 @@ metadata:
     app: backend
     release: kube-prometheus-stack
 spec:
-  {{- if eq .Values.platform "minikube" }}
-  type: {{ .Values.service.type }}
-  {{- end }}
+  type: {{- if eq .Values.platform "minikube" }}NodePort{{ else }}ClusterIP{{ end }}
   selector:
     app: myapp-backend
   ports:

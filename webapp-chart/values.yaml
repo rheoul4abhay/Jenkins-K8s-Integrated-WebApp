@@ -12,7 +12,6 @@ image:
   db: postgres
 
 service:
-  type: NodePort
   backendPort: 30500
   frontendPort: 30080
   dbPort: 5432
