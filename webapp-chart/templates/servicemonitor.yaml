@@ -4,14 +4,14 @@ metadata:
   name: backend-servicemonitor
   labels:
     release: kube-prometheus-stack
-  namespace: production
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
       app: myapp-backend
   namespaceSelector:
     matchNames:
-      - production
+      - {{ .Values.namespace }}
   endpoints:
     - port: http
       path: /metrics
