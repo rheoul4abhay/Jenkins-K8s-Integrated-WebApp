@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: database-deployment
+  name: myapp-database-deployment
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: postgres
+      app: myapp-database
   template:
     metadata:
       labels:
-        app: postgres
+        app: myapp-database
     spec:
       containers:
         - name: postgres
@@ -36,6 +36,14 @@ spec:
           volumeMounts:
             - name: init-db
               mountPath: /docker-entrypoint-initdb.d
+
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
       volumes:
         - name: init-db
           configMap:
@@ -45,40 +53,53 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: myapp-frontend-deployment
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: frontend
+      app: myapp-frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: myapp-frontend
     spec:
       containers:
         - name: frontend
           image: "{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}"
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           env:
             - name: BACKEND_URL
               value: "http://backend-service:5000"
+
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: myapp-backend-deployment
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: backend
+      app: myapp-backend
   template:
     metadata:
       labels:
-        app: backend
+        app: myapp-backend
+        release: kube-prometheus-stack
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "5000"
     spec:
       containers:
         - name: backend
@@ -111,3 +132,11 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: DB_PASSWORD
+
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}

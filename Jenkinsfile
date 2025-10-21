@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-		DEPLOYMENT_SERVER_IP = '54.81.133.38'
+		DEPLOYMENT_SERVER_IP = '54.226.118.129'
 		DOCKERHUB_USERNAME = 'abhayshrivastava'
 		SONARQUBE_TOKEN = credentials('sonarqube-token')
     }
@@ -68,16 +68,35 @@ pipeline {
             steps {
 		withCredentials([string(credentialsId: 'openshift-token', variable: 'OPENSHIFT_TOKEN')]) {
                 sh '''
-			oc login --token=$OPENSHIFT_TOKEN --server=https://api.rm2.thpm.p1.openshiftapps.com:6443 --insecure-skip-tls-verify=true
-			helm upgrade --install jk-webapp ./webapp-chart \
-			--set platform=openshift \
-  			--set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
-			--set image.frontend.tag=$BUILD_NUMBER \
-			--set image.backend.repository=$DOCKERHUB_USERNAME/jk-backend-app \
-			--set image.backend.tag=$BUILD_NUMBER
+		    oc login --token=$OPENSHIFT_TOKEN --server=https://api.rm2.thpm.p1.openshiftapps.com:6443 --insecure-skip-tls-verify=true
+		    helm upgrade --install jk-webapp ./webapp-chart \
+		    --set platform=openshift \
+  		    --set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
+		    --set image.frontend.tag=$BUILD_NUMBER \
+		    --set image.backend.repository=$DOCKERHUB_USERNAME/jk-backend-app \
+		    --set image.backend.tag=$BUILD_NUMBER
         	'''
 		}
             }
         }
+
+	stage('Deploy to Minikube for monitoring') {
+	    when {
+		branch 'main'
+	    }
+	    steps {
+		sh '''
+		    ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_SERVER_IP << EOF
+		    kubectl get namespace production || kubectl create namespace production
+        	    helm upgrade --install jk-webapp ./webapp-chart \
+        	    --namespace production \
+        	    --set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
+        	    --set image.frontend.tag=$BUILD_NUMBER \
+        	    --set image.backend.repository=$DOCKERHUB_USERNAME/jk-backend-app \
+        	    --set image.backend.tag=$BUILD_NUMBER
+    		    EOF
+		'''
+	    }
+	}
     }
 }
