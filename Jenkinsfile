@@ -68,7 +68,7 @@ pipeline {
             steps {
 		withCredentials([string(credentialsId: 'openshift-token', variable: 'OPENSHIFT_TOKEN')]) {
                 sh '''
-		    oc login --token=$OPENSHIFT_TOKEN --server=https://api.rm2.thpm.p1.openshiftapps.com:6443 --insecure-skip-tls-verify=true
+		    oc login --token=$OPENSHIFT_TOKEN --server=https://api.rm1.0a51.p1.openshiftapps.com:6443 --insecure-skip-tls-verify=true
 		    helm upgrade --install jk-webapp ./webapp-chart \
 		    --set platform=openshift \
   		    --set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
