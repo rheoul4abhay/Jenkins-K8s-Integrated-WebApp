@@ -88,12 +88,16 @@ pipeline {
 		sh '''
 		    ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$DEPLOYMENT_SERVER_IP << EOF
 		    kubectl get namespace production || kubectl create namespace production
-        	    helm upgrade --install jk-webapp ./webapp-chart \
+        	    helm add repo jk-webapp https://rheoul4abhay.github.io/my-helm-charts \
+		    helm update repo \
+		    helm upgrade --install jk-webapp jk-webapp/webapp-chart --version 0.2.0 \
+		    --set platform=minikube
 		    --set namespace=production
         	    --set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
         	    --set image.frontend.tag=$BUILD_NUMBER \
         	    --set image.backend.repository=$DOCKERHUB_USERNAME/jk-backend-app \
         	    --set image.backend.tag=$BUILD_NUMBER
+		    --namespace production
     		    EOF
 		'''
 	    }

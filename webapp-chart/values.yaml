@@ -11,7 +11,10 @@ image:
     tag: latest
   db: postgres
 
-ports:
+service:
+  type: NodePort
+  backendPort: 30500
+  frontendPort: 30080
   dbPort: 5432
 
 config:
