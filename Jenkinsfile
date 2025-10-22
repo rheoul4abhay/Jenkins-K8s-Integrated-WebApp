@@ -1,4 +1,4 @@
-ipipeline {
+pipeline {
     agent {
         label 'docker-node'
     }
