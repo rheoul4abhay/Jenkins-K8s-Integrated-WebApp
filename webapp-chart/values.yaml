@@ -1,6 +1,6 @@
 platform: openshift
 namespace: abhayshrivastava123-dev
-replicaCount: 3
+replicaCount: 2
 
 image:
   frontend:
@@ -28,7 +28,7 @@ secret:
 resources:
   requests:
     memory: "128Mi"
-    cpu: "150m"
+    cpu: "100m"
   limits:
     memory: "256Mi"
-    cpu: "200m"
+    cpu: "150m"
