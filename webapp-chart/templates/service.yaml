@@ -33,7 +33,7 @@ metadata:
   name: backend-service
   labels:
     namespace: {{ .Values.namespace }}
-    app: backend
+    app: myapp-backend
     release: kube-prometheus-stack
 spec:
   type: {{ if eq .Values.platform "minikube" }}NodePort{{ else }}ClusterIP{{ end }}
