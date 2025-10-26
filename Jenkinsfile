@@ -123,7 +123,7 @@ pipeline {
 		    	helm repo add jk-webapp https://rheoul4abhay.github.io/my-helm-charts && \
 		    	helm repo update && \
 		    	helm upgrade --install jk-webapp jk-webapp/webapp-chart \
-                    	--version 0.3.0 \
+                    	--version 0.3.$BUILD_NUMBER \
                     	--namespace production \
                     	--create-namespace \
                     	--set namespace=production \
