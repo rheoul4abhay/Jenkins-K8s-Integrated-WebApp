@@ -74,6 +74,10 @@ pipeline {
 			
 			git clone --branch gh-pages https://$GITHUB_TOKEN@github.com/rheoul4abhay/my-helm-charts.git helm-repo
 
+			cd helm-repo
+			rm -f *.tgz index.yaml
+
+			cd ..
 			helm lint ./webapp-chart
 			helm package ./webapp-chart --version 0.3.$BUILD_NUMBER --destination ./charts
 			cp ./charts/* ./helm-repo/
