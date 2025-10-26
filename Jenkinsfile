@@ -119,6 +119,7 @@ pipeline {
 	    }
 	    steps {
 			sh '''
+			sleep 45 # Wait for GitHub pages to update helm deployment
 		    	ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@$MONITORING_SERVER_IP "
 		    	helm repo add jk-webapp https://rheoul4abhay.github.io/my-helm-charts && \
 		    	helm repo update && \
