@@ -105,4 +105,24 @@ pipeline {
 	    }
 	}
     }
+    post {
+	success {
+            withCredentials([string(credentialsId: 'slack-webhook-url', variable: 'SLACK_WEBHOOK')]) {
+        	sh """
+        	curl -X POST -H 'Content-type: application/json' --data '{ 
+		"text": "✅ Jenkins CI/CD Pipeline succeeded for branch: ${env.BRANCH_NAME}, Build #${env.BUILD_NUMBER}"
+            	}' $SLACK_WEBHOOK
+            	"""
+            }
+	}
+	failure {
+	    withCredentials([string(credentialsId: 'slack-webhook-url', variable: 'SLACK_WEBHOOK')]) {
+                sh """
+                curl -X POST -H 'Content-type: application/json' --data '{
+                "text": "❌ Jenkins CI/CD Pipeline failed for branch: ${env.BRANCH_NAME}, Build #${env.BUILD_NUMBER}"
+            	}' $SLACK_WEBHOOK
+            	"""
+            }
+	}
+    }
 }
