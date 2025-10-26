@@ -72,6 +72,8 @@ pipeline {
 			git config --global user.email "abhayshrivastava830@gmail.com"
 			git config --global user.name "Abhay Shrivastava"
 			
+			rm -rf helm-repo
+
 			git clone --branch gh-pages https://$GITHUB_USER:$GITHUB_PASS@github.com/rheoul4abhay/my-helm-charts.git helm-repo
 
 			cd helm-repo
