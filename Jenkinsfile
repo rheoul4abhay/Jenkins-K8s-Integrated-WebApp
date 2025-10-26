@@ -67,12 +67,12 @@ pipeline {
 		branch 'main'
 	    }
 	    steps {
-		withCredentials([string(credentialsId: 'github-login', variable: 'GITHUB_TOKEN')]) {
+		withCredentials([usernamePassword(credentialsId: 'github-login', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PASS')]) {
 		    sh '''
 			git config --global user.email "abhayshrivastava830@gmail.com"
 			git config --global user.name "Abhay Shrivastava"
 			
-			git clone --branch gh-pages https://$GITHUB_TOKEN@github.com/rheoul4abhay/my-helm-charts.git helm-repo
+			git clone --branch gh-pages https://$GITHUB_USER:$GITHUB_PASS@github.com/rheoul4abhay/my-helm-charts.git helm-repo
 
 			cd helm-repo
 			rm -f *.tgz index.yaml
@@ -86,7 +86,7 @@ pipeline {
 			helm repo index . --url https://rheoul4abhay.github.io/my-helm-charts
 			git add .
 			git commit -m "Updated Helm chart to version 0.3.$BUILD_NUMBER"
-			git push https://$GITHUB_TOKEN@github.com/rheoul4abhay/my-helm-charts.git gh-pages
+			git push https://$GITHUB_USER:$GITHUB_PASS@github.com/rheoul4abhay/my-helm-charts.git gh-pages
 		    '''
 		}
 	    }
