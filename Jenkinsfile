@@ -61,6 +61,32 @@ pipeline {
                 }
             }
         }
+	
+	stage('Package and Push Helm Chart') {
+	    when {
+		branch 'main'
+	    }
+	    steps {
+		withCredentials([string(credentialsId: 'github-login', variable: 'GITHUB_TOKEN')]) {
+		    sh '''
+			git config --global user.email "abhayshrivastava830@gmail.com"
+			git config --global user.name "Abhay Shrivastava"
+			
+			git clone --branch gh-pages https://$GITHUB_TOKEN@github.com/rheoul4abhay/my-helm-charts.git helm-repo
+
+			helm lint ./webapp-chart
+			helm package ./webapp-chart --version 0.3.$BUILD_NUMBER --destination ./charts
+			cp ./charts/* ./helm-repo/
+			
+			cd helm-repo
+			helm repo index . --url https://rheoul4abhay.github.io/my-helm-charts
+			git add .
+			git commit -m "Updated Helm chart to version 0.3.$BUILD_NUMBER"
+			git push https://$GITHUB_TOKEN@github.com/rheoul4abhay/my-helm-charts.git gh-pages
+		    '''
+		}
+	    }
+	}
 
         stage('Deploy to OpenShift') {
 	    when {
