@@ -6,4 +6,6 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "app.py"]
+ENV NEW_RELIC_CONFIG_FILE=/app/newrelic.ini
+
+CMD ["newrelic-admin", "run-program", "python", "app.py"]
