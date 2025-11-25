@@ -1,5 +1,5 @@
 platform: openshift
-namespace: abhayshrivastava123-dev
+namespace: yanko4abhay-dev
 replicaCount: 2
 
 image:
