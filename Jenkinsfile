@@ -102,7 +102,6 @@ pipeline {
 		withCredentials([string(credentialsId: 'openshift-token', variable: 'OPENSHIFT_TOKEN')]) {
 			sh '''
 			oc login --token=$OPENSHIFT_TOKEN --server=$OPENSHIFT_SERVER_URL
-			oc project yanko4abhay-dev
 			helm upgrade --install jk-webapp ./webapp-chart \
 			--set platform=openshift \
 			--set image.frontend.repository=$DOCKERHUB_USERNAME/jk-frontend-app \
