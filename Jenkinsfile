@@ -7,7 +7,7 @@ pipeline {
 		DOCKERHUB_USERNAME = 'abhayshrivastava'
 		SONARQUBE_TOKEN = credentials('sonarqube-token')
 		OPENSHIFT_SERVER_URL = 'https://api.rm3.7wse.p1.openshiftapps.com:6443'
-		MONITORING_SERVER_IP = '54.91.239.241'
+		MONITORING_SERVER_IP = '100.30.213.217'
     }
 
     stages {
@@ -40,8 +40,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd frontend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER
+                        docker build -t $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER .
+                        docker push $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER
                         '''
                     }
                 }
@@ -54,8 +54,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd backend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER
+                        docker build -t $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER .
+                        docker push $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER
                         '''
                     }
                 }
