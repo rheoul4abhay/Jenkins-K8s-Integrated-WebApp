@@ -7,7 +7,7 @@ pipeline {
 		DOCKERHUB_USERNAME = 'abhayshrivastava'
 		SONARQUBE_TOKEN = credentials('sonarqube-token')
 		OPENSHIFT_SERVER_URL = 'https://api.rm3.7wse.p1.openshiftapps.com:6443'
-		MONITORING_SERVER_IP = '54.91.239.241'
+		MONITORING_SERVER_IP = '100.30.213.217'
     }
 
     stages {
