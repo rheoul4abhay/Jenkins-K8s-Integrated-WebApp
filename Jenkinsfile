@@ -40,8 +40,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd frontend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER
+                        docker build -t $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER .
+                        docker push $DOCKERHUB_USERNAME/jk-frontend-app:$BUILD_NUMBER
                         '''
                     }
                 }
@@ -54,8 +54,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         sh '''
                         cd backend
-                        sudo docker build -t $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER .
-                        sudo docker push $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER
+                        docker build -t $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER .
+                        docker push $DOCKERHUB_USERNAME/jk-backend-app:$BUILD_NUMBER
                         '''
                     }
                 }
